@@ -10,3 +10,14 @@ PASS: Python verifier compiles.
 PASS: fixture guards reject wrong device, missing DPI and unwanted Docker.
 NOT RUN: Linux make defconfig, full compilation, image metadata/package inspection.
 NOT RUN: device flashing or hardware validation.
+
+Later validation on 2026-11-10:
+PASS: cloud run #2 configuration resolution and required/excluded package checks.
+PASS: full cloud compilation and fwtool image metadata / package manifest checks.
+PASS: all downloaded artifact hashes match the cloud SHA256SUMS.
+PASS: embedded ARM64 FIT, RA74 DTB, expected partition layout and read-only ART.
+PASS: installer UBI EC/VID CRCs, page geometry, and matching installer/upgrade DTB.
+PASS: SquashFS v4 superblock and image sizes within declared partitions.
+PASS: inspector accepts a separate upstream RA74 reference image; rejects bad EC CRC,
+truncated eraseblock and a modified wrong-board device tree.
+NOT RUN: device flashing, boot, Wi-Fi throughput, runtime DPI or iStore integration.

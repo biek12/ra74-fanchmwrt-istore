@@ -8,3 +8,5 @@ make download -j4 V=s 2>&1 | tee "$KIT_DIR/artifacts/download.log"
 # Two jobs limit peak memory. Do not hide failures behind an automatic retry.
 make -j2 V=s 2>&1 | tee "$KIT_DIR/artifacts/build.log"
 python3 "$KIT_DIR/scripts/verify.py" image "$BUILD_DIR" "$KIT_DIR/artifacts"
+python3 "$KIT_DIR/scripts/inspect_artifacts.py" "$KIT_DIR/artifacts" \
+  > "$KIT_DIR/artifacts/structural-inspection.json"

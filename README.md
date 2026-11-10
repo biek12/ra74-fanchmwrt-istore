@@ -4,11 +4,12 @@
 目标是家庭使用：FanchmWrt 的应用识别、终端与流量管理，加上独立的 iStore 软件中心。
 不移植 iStoreOS 的 Docker、NAS、QuickStart 整套组件。
 
-**状态：实验性源码移植。云端配置校验已通过，完整编译进行中，尚未实机刷入。不能作为稳定固件使用。**
+**状态：实验性源码移植。构建 #2 已成功，镜像校验和下载后的结构检查通过；尚未实机刷入。不能作为稳定固件使用。**
 本工具包不会连接路由器，也不会执行刷写操作。
 
 构建仓库：[biek12/ra74-fanchmwrt-istore](https://github.com/biek12/ra74-fanchmwrt-istore)。
-当前运行：[完整构建 #2](https://github.com/biek12/ra74-fanchmwrt-istore/actions/runs/42779712583)。
+成功运行：[完整构建 #2](https://github.com/biek12/ra74-fanchmwrt-istore/actions/runs/42779712583)。
+详细记录：[BUILD-2.md](BUILD-2.md)。固件前缀显示 `openwrt` 是该源码版本的默认命名，实际包含 FanchmWrt 和 iStore。
 
 ## 已完成与待完成
 
@@ -17,13 +18,14 @@
 - 准备只需手动触发的 GitHub Actions、精简配置、配置/镜像核验和日志归档。
 - 本机完成补丁反向匹配、diff 格式检查、修改过的 shell 脚本语法检查。
 - Linux 上 `make defconfig` 及 RA74 / DPI / iStore 必需项、排除项检查已在运行 #2 中通过。
-- 尚待完整编译与镜像核验。
+- 完整编译、镜像元信息、325 个软件包的清单检查及 SHA256 校验已通过。
+- 下载后核对了内嵌 ARM64 FIT/RA74 设备树、只读 ART、UBI 页布局与头 CRC、SquashFS，以及两份镜像的设备树一致性。
 - 尚待实机验证 WAN、各 LAN、双频 Wi-Fi、管控有效性、性能和长期稳定性。
 
 首次云端构建已执行，停在配置检查阶段，没有产出固件。
 该次日志暴露了固定 feeds 的 WeeChat 虚拟包循环依赖，以及 iStore 所需 GNU tar/xz 的配置约束。
 现在用 `0002-luci-weechat-provider.patch` 选择具体的 WeeChat provider，并显式选择 `xz-utils`/`tar`。
-不编译 WeeChat；修复其包定义是为了让全局 Kconfig 正常解析。运行 #2 已通过配置检查，正在完整构建。
+不编译 WeeChat；修复其包定义是为了让全局 Kconfig 正常解析。运行 #2 已通过配置检查并成功完成构建。
 
 本机不启动完整编译：2026-11-10 检查时 Mac 只有约 17 GiB 可用空间，Docker/Colima 未运行。
 当前 XERJ 因磁盘水位拒绝索引，本次以直接源码核对为依据。
@@ -50,6 +52,7 @@
 - 下载/构建日志；失败时也会保存尽可能完整的诊断资料。
 
 只有机型元信息正确、必需软件包存在且已排除 Docker/SMB 存储包，镜像才会进入产物目录。
+当前脚本随后还执行 `scripts/inspect_artifacts.py`；构建 #2 的这一步是在下载后单独执行并通过的。
 检查通过只证明构建与镜像身份，不能证明网口、无线和 DPI 在真机上工作正常。
 不要把 `.bin` 当成小米原厂网页可以直接接受的安装包。
 
