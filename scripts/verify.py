@@ -9,7 +9,7 @@ import sys
 import tempfile
 
 REQUIRED = {
-    'luci', 'luci-compat', 'luci-app-store', 'fwxd', 'kmod-fwx',
+    'luci', 'luci-compat', 'luci-app-store', 'xz-utils', 'tar', 'fwxd', 'kmod-fwx',
     'luci-app-fwx-appfilter', 'luci-app-fwx-dashboard',
     'luci-app-fwx-traffic-stat', 'luci-app-fwx-app-center',
     'ipq-wifi-xiaomi_redmi-ax5400',

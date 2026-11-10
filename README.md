@@ -16,6 +16,11 @@
 - 尚待 Linux 上 `make defconfig`、完整编译与镜像核验。
 - 尚待实机验证 WAN、各 LAN、双频 Wi-Fi、管控有效性、性能和长期稳定性。
 
+首次云端构建已执行，停在配置检查阶段，没有产出固件。
+该次日志暴露了固定 feeds 的 WeeChat 虚拟包循环依赖，以及 iStore 所需 GNU tar/xz 的配置约束。
+现在用 `0002-luci-weechat-provider.patch` 选择具体的 WeeChat provider，并显式选择 `xz-utils`/`tar`。
+不编译 WeeChat；修复其包定义是为了让全局 Kconfig 正常解析。后续仍须重新通过云端构建。
+
 本机不启动完整编译：2026-11-10 检查时 Mac 只有约 17 GiB 可用空间，Docker/Colima 未运行。
 当前 XERJ 因磁盘水位拒绝索引，本次以直接源码核对为依据。
 

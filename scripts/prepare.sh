@@ -29,9 +29,17 @@ s += '\nsrc-git istore https://github.com/istoreos/istore.git^' + sys.argv[2] + 
 p.write_text(s)
 PY
 ./scripts/feeds update -a
+git -C feeds/luci apply --check "$KIT_DIR/patches/0002-luci-weechat-provider.patch"
+git -C feeds/luci apply "$KIT_DIR/patches/0002-luci-weechat-provider.patch"
 ./scripts/feeds install -a
 cp "$KIT_DIR/configs/ra74.config" .config
-make defconfig
+make defconfig 2>&1 | tee "$KIT_DIR/artifacts/defconfig.log"
+python3 - "$KIT_DIR/artifacts/defconfig.log" <<'PY'
+from pathlib import Path
+import sys
+if 'recursive dependency detected!' in Path(sys.argv[1]).read_text():
+    raise SystemExit('Kconfig dependency cycle; do not continue with this configuration')
+PY
 python3 "$KIT_DIR/scripts/verify.py" config "$BUILD_DIR"
 cp .config "$KIT_DIR/artifacts/resolved.config"
 ./scripts/diffconfig.sh > "$KIT_DIR/artifacts/diffconfig"
