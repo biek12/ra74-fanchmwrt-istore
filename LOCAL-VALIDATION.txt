@@ -1,0 +1,12 @@
+2026-11-10
+FanchmWrt source: 11b65ca6a58dc7fad27eef196b391789195393b8
+PASS: backport applies cleanly to 8 original pinned source paths.
+PASS: resulting files match reviewed local modifications.
+PASS: git diff --check.
+PASS: modified board/upgrade shell files pass sh -n.
+PASS: build scripts and workflow shell blocks pass bash -n.
+PASS: workflow YAML parses.
+PASS: Python verifier compiles.
+PASS: fixture guards reject wrong device, missing DPI and unwanted Docker.
+NOT RUN: Linux make defconfig, full compilation, image metadata/package inspection.
+NOT RUN: device flashing or hardware validation.
